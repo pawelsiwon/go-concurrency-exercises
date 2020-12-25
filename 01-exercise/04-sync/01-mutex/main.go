@@ -28,9 +28,12 @@ func main() {
 	// TODO: fix the issue for consistent output.
 
 	wg.Add(100)
+	mux := sync.Mutex{}
 	for i := 0; i < 100; i++ {
 		go func() {
+			mux.Lock()
 			defer wg.Done()
+			defer mux.Unlock()
 			deposit(1)
 		}()
 	}
@@ -38,7 +41,9 @@ func main() {
 	wg.Add(100)
 	for i := 0; i < 100; i++ {
 		go func() {
+			mux.Lock()
 			defer wg.Done()
+			defer mux.Unlock()
 			withdrawal(1)
 		}()
 	}
