@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 )
 
 func main() {
@@ -11,10 +12,15 @@ func main() {
 
 	var data int
 
-	go func() {
+	wg := sync.WaitGroup{}
+	
+	wg.Add(1)
+	go func(wg *sync.WaitGroup) {
+		defer wg.Done()
 		data++
-	}()
+	}(&wg)
 
+	wg.Wait()
 	fmt.Printf("the value of data is %v\n", data)
 
 	fmt.Println("Done..")
