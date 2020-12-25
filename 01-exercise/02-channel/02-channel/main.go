@@ -4,7 +4,7 @@ import "fmt"
 
 func main() {
 
-	ch := make(chan int, 6)
+	ch := make(chan int)
 
 	go func() {
 		defer close(ch)
